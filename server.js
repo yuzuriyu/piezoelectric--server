@@ -3,6 +3,9 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const InquiriesModel = require("./models/Inquiries");
+require("dotenv").config;
+
+mongoose.set("strictQuery", false);
 
 mongoose.connect(
   "mongodb+srv://garciaccole:careycole39@capstone.aevnofm.mongodb.net/capstone?retryWrites=true&w=majority"
@@ -33,7 +36,7 @@ app.post("/submit-inquiry", async (req, res) => {
   }
 });
 
-// const PORT = process.env.PORT || 4000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
