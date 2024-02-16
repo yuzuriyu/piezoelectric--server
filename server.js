@@ -11,11 +11,6 @@ mongoose.connect(
 app.use(express.json());
 app.use(cors());
 
-app.get("/voltage", (req, res) => {
-  const voltage = generateVoltage();
-  res.json({ voltage });
-});
-
 app.get("/inquiries", async (req, res) => {
   try {
     const result = await InquiriesModel.find({});
