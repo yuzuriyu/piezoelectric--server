@@ -43,6 +43,34 @@ app.post("/submit-inquiry", async (req, res) => {
   }
 });
 
+app.patch("/submit-voltage/:day", async (req, res) => {
+  const { day } = req.params;
+  const { voltages } = req.body;
+  try {
+    // Find the existing voltage data for the specified day
+    const existingVoltage = await VoltageModel.findOne({ day });
+
+    if (existingVoltage) {
+      // If data for the day already exists, append the new voltages to the existing array
+      existingVoltage.voltages.push(...voltages);
+      await existingVoltage.save();
+      res
+        .status(200)
+        .json({ message: "Voltage data updated successfully", success: true });
+    } else {
+      res.status(404).json({
+        message: "Voltage data for the specified day not found",
+        success: false,
+      });
+    }
+  } catch (err) {
+    console.error("Error updating voltage data:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to update voltage data" });
+  }
+});
+
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
