@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 const InquiriesModel = require("./models/Inquiries");
+const VoltageModel = require("./models/Voltage");
 require("dotenv").config();
 
 mongoose.set("strictQuery", false);
@@ -14,12 +15,8 @@ mongoose.connect(
 app.use(express.json());
 app.use(cors());
 
-app.get("/voltage", (req, res) => {
-  function generateVoltage() {
-    return Math.floor(Math.random() * (10 - 5 + 1)) + 5; // Generates a random integer between 5 and 10
-  }
-
-  const voltage = generateVoltage();
+app.get("/voltages", async (req, res) => {
+  const voltage = await VoltageModel.find({});
 
   res.json({ voltage });
 });
